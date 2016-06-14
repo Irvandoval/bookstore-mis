@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <link href="/bower_components/bootstrap/dist/css/bootstrap.css" rel="stylesheet"/>
+    <title>Reporte</title>
+    <style type="text/css">
+      @media print {
+        @page {
+          size: letter portrait;
+         margin:2cm  auto;
+        }
+        body {
+         {font-family:arial, times, serif;}
+        }
+        table, td{
+         font-size: 7pt;
+        }
+      }
+      table { page-break-inside:auto }
+         tr    { page-break-inside:avoid; page-break-after:auto }
+    </style>
+  </head>
+  <body>
+
+
+    <table class="table table-bordered">
+     <tr>
+      <td>#</td>
+      <td>Proveedor</td>
+      <td>Monto gastado</td>
+     </tr>
+     <% var total = 0; for(var i = 0; i < proveedores.length; i++) { %>
+      <tr>
+        <td><%= i %></td>
+        <td><%= proveedores[i].nombre_proveedor %></td>
+        <td>$<%= proveedores[i].monto.toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, '$1,'); %></td>
+      </tr>
+      <% total+= proveedores[i].monto } %>
+    </table>
+
+    <div ng-show="pv.proveedores" class="text-center">
+     <label for="">Total del monto</label> <b>$<%= total.toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, '$1,');%></b>
+     <p class="text-danger">FIN DEL REPORTE</p> <br>
+    </div>
+
+   <script type="text/javascript">
+      window.print();
+   </script>
+  </body>
+</html>

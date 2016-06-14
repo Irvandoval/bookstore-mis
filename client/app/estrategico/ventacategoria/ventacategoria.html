@@ -1,0 +1,105 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-4">
+      <menu></menu>
+    </div>
+    <div class="col-md-8">
+      <span>
+        <b>fecha:</b>
+      </span>
+      {{pv.hoy | date:'shortDate'}}
+      <br>
+      <b>
+        Titulo:</b>
+      Compras de libros
+      <div class="text-center">
+        <label>opción
+        </label>
+        <select ng-model="pv.opcion">
+          <option value="">Seleccione</option>
+          <option value="3" selected>Mensual</option>
+          <option value="2">Trimestral</option>
+          <option value="1">Anual</option>
+        </select><br>
+
+        <div ng-show="pv.opcion == 2">
+         <label for="">Trimestre</label>
+          <select ng-model="pv.trimestre">
+            <option value="">Seleccione</option>
+            <option value="1">Primer Trimestre</option>
+            <option value="2">Segundo Trimestre</option>
+            <option value="3">Tercer Trimestre</option>
+            <option value="4">Cuarto Trimestre</option>
+          </select>
+          <br>
+        </div>
+
+        <div ng-show="pv.opcion == 3">
+          <label for="">Mes</label>
+          <select ng-model="pv.mes">
+            <option value="">Seleccione</option>
+            <option value="1">Enero</option>
+            <option value="2">Febrero</option>
+            <option value="3">Marzo</option>
+            <option value="4">Abril</option>
+            <option value="5">Mayo</option>
+            <option value="6">Junio</option>
+            <option value="7">Julio</option>
+            <option value="8">Agosto</option>
+            <option value="9">Septiembre</option>
+            <option value="10">Octubre</option>
+            <option value="11">Noviembre</option>
+            <option value="12">Diciembre</option>
+          </select>
+          <br>
+        </div>
+        <div ng-show="pv.opcion == 2 || pv.opcion == 3">
+         <label for="">año</label>
+         <select ng-model="pv.anio">
+          <option value="">Seleccione</option>
+           <option ng-repeat="a in pv.anios">{{a.anio}}</option>
+         </select> <br>
+        </div>
+        <label for="">limite:</label>
+        <select ng-model="pv.limit">
+          <option value="">Seleccione</option>
+          <option value="5">5</option>
+          <option value="10">10</option>
+          <option value="15">15</option>
+          <option value="20">20</option>
+          <option value="25">25</option>
+        </select>
+        <br>
+
+        <button class="btn btn-success" ng-click="pv.procesar()">Procesar</button>
+        <br><br>
+      </div>
+      <br>
+
+      <table class="table table-bordered">
+        <tr>
+          <td>#</td>
+          <td>Periodo</td>
+          <td>Nombre de categoría</td>
+          <td>Ventas</td>
+        </tr>
+        <tr ng-repeat="prov in pv.proveedores">
+          <td>{{$index + 1}}</td>
+          <td>{{prov.anio}}
+            {{pv.getMonth(prov.mes) || pv.getTrimestre(prov.quarter) }}</td>
+          <td>{{prov.nombre_categoria}}</td>
+          <td>{{prov.venta | currency}}</td>
+        </tr>
+      </table>
+
+      <div ng-show="pv.proveedores" class="text-center">
+        <label for="">Total de venta</label>
+        <b>{{pv.valor.total | currency}}</b>
+        <p class="text-danger">FIN DEL REPORTE</p>
+        <br>
+        <button class="btn">Exportar</button>
+        <a class="btn btn-default" href="/">Volver al menu principal</a>
+      </div>
+    </div>
+  </div>
+</div>

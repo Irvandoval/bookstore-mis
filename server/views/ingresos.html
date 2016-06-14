@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <link href="/bower_components/bootstrap/dist/css/bootstrap.css" rel="stylesheet"/>
+    <title>Reporte de ingresos</title>
+    <style type="text/css">
+      @media print {
+        @page {
+          size: letter portrait;
+         margin:2cm  auto;
+        }
+        body {
+         {font-family:arial, times, serif;}
+        }
+        table, td{
+         font-size: 7pt;
+        }
+      }
+      table { page-break-inside:auto }
+         tr    { page-break-inside:avoid; page-break-after:auto }
+    </style>
+  </head>
+  <body>
+  <%
+  getMonth(m) {
+    let mes = '';
+    switch (m) {
+      case 1:
+        mes = 'enero';
+        break;
+      case 2:
+        mes = 'febrero';
+        break;
+      case 3:
+        mes = 'marzo';
+        break;
+      case 4:
+        mes = 'abril';
+        break;
+      case 5:
+        mes = 'mayo';
+        break;
+      case 6:
+        mes = 'junio';
+        break;
+      case 7:
+        mes = 'julio';
+        break;
+      case 8:
+        mes = 'agosto';
+        break;
+      case 9:
+        mes = 'septiembre';
+        break;
+      case 10:
+        mes = 'octubre';
+        break;
+      case 11:
+        mes = 'noviembre';
+        break;
+      case 12:
+        mes = 'diciembre';
+        break;
+
+      default:
+        mes = '';
+
+    }
+
+    return mes;
+  }
+  getTrimestre(t){
+    if (t) {
+     return t + 'º trimestre';
+    }
+    else {
+     return '';
+    }
+  }
+  %>
+
+    <table class="table table-bordered">
+     <tr>
+      <td>#</td>
+      <td>Periodo</td>
+      <td>Ingreso</td>
+     </tr>
+     <% var total = 0; for(var i = 0; i < ingresos.length; i++) { %>
+      <tr>
+        <td><%= i %></td>
+        <td><%= ingresos[i].anio  getMonth(ingresos[i].mes) || getTrimestre(ingresos[i].trimestre) %></td>
+        <td>$<%= ingresos[i].ingreso.toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, '$1,'); %></td>
+      </tr>
+      <% total+= ingresos[i].monto } %>
+    </table>
+
+    <div ng-show="pv.ingresos" class="text-center">
+     <label for="">Total del monto</label> <b>$<%= total.toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, '$1,');%></b>
+     <p class="text-danger">FIN DEL REPORTE</p> <br>
+    </div>
+
+   <script type="text/javascript">
+      window.print();
+   </script>
+  </body>
+</html>
