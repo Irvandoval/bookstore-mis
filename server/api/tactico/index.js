@@ -17,3 +17,5 @@ router.post('/ventaspormes', controller.ventasPorMes);
 router.get('/ventaspormes', controller.ventasPorMesRep);
 router.post('/ventasproveedor', controller.ventasPorProveedor);
 router.get('/ventasproveedor', controller.ventasPorProveedorRep);
+
+module.exports = router;
