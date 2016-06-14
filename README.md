@@ -1,5 +1,6 @@
-<<<<<<< HEAD
-# Libreria App
+
+#bookstore-mis
+Management Information System for a Book Store
 This project was generated with the [Angular Full-Stack Generator](https://github.com/DaftMonk/generator-angular-fullstack) version 3.7.2.
 
 ## Getting Started
@@ -27,7 +28,4 @@ Run `grunt build` for building and `grunt serve` for preview.
 ## Testing
 
 Running `npm test` will run the unit tests with karma.
-=======
-# bookstore-mis
-Management Information System for a Book Store
->>>>>>> 71e20c6c898fca1f468ed3a3f6f8c07bb72006bf
+
