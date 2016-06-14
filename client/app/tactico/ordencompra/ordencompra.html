@@ -1,0 +1,50 @@
+<div class="container">
+  <div class="row">
+     <div class="col-md-4">
+       <menu></menu>
+     </div>
+      <div class="col-md-8">
+       <span><b>fecha:</b></span> {{pv.hoy | date:'shortDate'}}
+       <br> <b> Titulo:</b> Órdenes de compra
+        <div class="text-center">
+         <label>opción </label>
+         <select  ng-model="pv.opcion">
+          <option value="">Seleccione</option>
+          <option value="3" selected>Mensual</option>
+           <option value="2">Trimestral</option>
+           <option value="1">Anual</option>
+         </select><br>
+         <label for="">limite:</label>
+         <select ng-model="pv.limit">
+          <option value="">Seleccione</option>
+          <option value="5">5</option>
+          <option value="10">10</option>
+          <option value="15">15</option>
+          <option value="20">20</option>
+          <option value="25">25</option>
+         </select> <br>
+          <button class="btn btn-success" ng-click="pv.procesar()">Procesar</button> <br><br>
+        </div> <br>
+
+       <table class="table table-bordered">
+        <tr>
+         <td>#</td>
+         <td>Periodo</td>
+         <td>Cantidad</td>
+        </tr>
+        <tr ng-repeat="prov in pv.proveedores">
+          <td>{{$index + 1}}</td>
+          <td>{{prov.anio}} {{pv.getMonth(prov.mes) || pv.getTrimestre(prov.quarter) }}</td>
+          <td>{{prov.cantidad}}</td>
+        </tr>
+       </table>
+
+       <div ng-show="pv.proveedores" class="text-center">
+        <label for="">Total de ordenes</label> <b>{{pv.valor.total}}</b>
+        <p class="text-danger">FIN DEL REPORTE</p> <br>
+        <button class="btn">Exportar</button>
+        <a class="btn btn-default" href="/">Volver al menu principal</a>
+       </div>
+      </div>
+  </div>
+</div>
