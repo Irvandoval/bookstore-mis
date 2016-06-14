@@ -12,6 +12,7 @@ export default function(app) {
  // app.use('/api/things', require('./api/thing'));
   app.use('/api/users', require('./api/user'));
   app.use('/api/estrategico', require('./api/estrategico'));
+  app.use('/api/tactico', require('./api/tactico'));
   app.use('/api/compartido', require('./api/compartido'));
 
   app.use('/auth', require('./auth').default);
