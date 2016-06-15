@@ -1,0 +1,55 @@
+<div class="container">
+  <div class="row">
+     <div class="col-md-4">
+       <menu></menu>
+     </div>
+      <div class="col-md-8">
+       <span><b>fecha:</b></span> {{pv.hoy | date:'shortDate'}}
+       <br> <b> Titulo:</b> Ventas por editorial
+        <div class="text-center">
+         <label for="">Mes</label>
+            <select ng-model="pv.mes">
+             <option value="">Seleccione</option>
+             <option value="1">Enero</option>
+             <option value="2">Febrero</option>
+             <option value="3">Marzo</option>
+             <option value="4">Abril</option>
+             <option value="5">Mayo</option>
+             <option value="6">Junio</option>
+             <option value="7">Julio</option>
+             <option value="8">Agosto</option>
+             <option value="9">Septiembre</option>
+             <option value="10">Octubre</option>
+             <option value="11">Noviembre</option>
+             <option value="12">Diciembre</option>
+            </select><br>
+            <label for="">año</label>
+            <select ng-model="pv.anio">
+             <option value="">Seleccione</option>
+              <option ng-repeat="a in pv.anios">{{a.anio}}</option>
+            </select> <br>
+           <button class="btn btn-success" ng-click="pv.procesar()">Procesar</button> <br><br>
+        </div>
+
+       <table class="table table-bordered">
+        <tr>
+         <td>#</td>
+         <td>Mes</td>
+         <td>Cantidad</td>
+        </tr>
+        <tr ng-repeat="prov in pv.proveedores">
+          <td>{{$index + 1}}</td>
+          <td>{{prov.anio}} {{pv.getMonth(prov.mes)}}</td>
+          <td>{{prov.cantidad}}</td>
+        </tr>
+       </table>
+
+       <div ng-show="pv.proveedores" class="text-center">
+        <label for="">Total de libros vendidos</label> <b>{{pv.valor.total}}</b>
+        <p class="text-danger">FIN DEL REPORTE</p> <br>
+        <button class="btn">Exportar</button>
+        <a class="btn btn-default" href="/">Volver al menu principal</a>
+       </div>
+      </div>
+  </div>
+</div>

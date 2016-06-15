@@ -112,14 +112,11 @@ export function ventasEditorialRep(req, res){
 }
 
 export function ventasPorMes(req, res){
- //let limit = Number(req.body.limit);
- let inicial = new Date(req.body.fechaInicial);
- let final = new Date(req.body.fechaFinal);
- let fechaInicial = inicial.getFullYear() + '-' + (inicial.getMonth() + 1) + '-' + inicial.getDate();
- let fechaFinal = final.getFullYear() + '-' + (final.getMonth() + 1) + '-' + final.getDate();
+  let mes = Number(req.body.mes);
+  let anio = Number(req.body.anio);
 
- sequelize.query('SELECT titulo_libro, SUM(cantidad_vendida) cantidad from libro, venta_libro_diaria WHERE libro.id_libro = venta_libro_diaria.id_libro GROUP BY libro.id_libro ORDER BY cantidad LIMIT 25', {
-   replacements: [fechaInicial, fechaFinal],
+ sequelize.query('SELECT titulo_libro, SUM(cantidad_vendida) as cantidad, MONTH(fecha) as mes, YEAR(fecha) as anio from libro, venta_libro_diaria WHERE libro.id_libro = venta_libro_diaria.id_libro and MONTH(fecha) = ? and YEAR(fecha) = ? GROUP BY libro.id_libro ORDER BY cantidad LIMIT 25', {
+   replacements: [mes, anio],
    type: sequelize.QueryTypes.SELECT
  }).then(function(sales) {
    res.status(200).json(sales);
