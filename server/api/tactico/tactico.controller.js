@@ -79,7 +79,7 @@ export function librosVendidos(req, res){
  let fechaInicial = inicial.getFullYear() + '-' + (inicial.getMonth() + 1) + '-' + inicial.getDate();
  let fechaFinal = final.getFullYear() + '-' + (final.getMonth() + 1) + '-' + final.getDate();
 
- sequelize.query('SELECT titulo_libro, SUM(cantidad_vendida) as cantidad from venta_libro_diaria as v, libro as l where v.id_libro = l.id_libro fecha between ? and ?  GROUP BY v.id_libro ORDER BY cantidad DESC LIMIT ?', {
+ sequelize.query('SELECT titulo_libro, SUM(cantidad_vendida) as cantidad from venta_libro_diaria as v, libro as l where v.id_libro = l.id_libro and fecha between ? and ?  GROUP BY v.id_libro ORDER BY cantidad DESC LIMIT ?', {
    replacements: [fechaInicial, fechaFinal, limit],
    type: sequelize.QueryTypes.SELECT
  }).then(function(sales) {
