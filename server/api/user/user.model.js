@@ -19,7 +19,7 @@ module.exports = function(sequelize, DataTypes) {
     email: {
       type: DataTypes.STRING,
       unique: {
-        msg: 'The specified email address is already in use.'
+        msg: 'El email ya esta siendo usado.'
       },
       validate: {
         isEmail: true
@@ -202,7 +202,7 @@ module.exports = function(sequelize, DataTypes) {
         // Handle new/update passwords
         if (this.password) {
           if (!validatePresenceOf(this.password)) {
-            fn(new Error('Invalid password'));
+            fn(new Error('Contraseña inválida'));
           }
 
           // Make salt with a callback

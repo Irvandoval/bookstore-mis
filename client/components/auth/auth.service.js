@@ -1,4 +1,4 @@
-'use strict';
+ 'use strict';
 
 (function() {
 
@@ -170,6 +170,14 @@
        */
       isAdmin() {
         return Auth.hasRole.apply(Auth, [].concat.apply(['admin'], arguments));
+      },
+
+      isEstrategico() {
+        return Auth.hasRole.apply(Auth, [].concat.apply(['estrategico'], arguments));
+      },
+
+      isTactico() {
+        return Auth.hasRole.apply(Auth, [].concat.apply(['tactico'], arguments));
       },
 
       /**

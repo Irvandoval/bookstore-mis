@@ -1,20 +1,47 @@
 <div class="cssmenu">
- <h3 class="text-center">Menú</h3>
- <h4>Estratégico</h4>
-  <ul>
-     <li><a href="/estrategico/proveedores">Informe proveedores</a></li>
-     <li><a href="/estrategico/ingresos">Informe ingresos</a></li>
-     <li><a href="/estrategico/compras">Informe compras</a></li>
-     <li><a href="/estrategico/topventas">Informe de ventas de libros</a></li>
-     <li><a href="/estrategico/ventacategoria">Informe de ventas por categoria</a></li>
-  </ul>
-  <h4>Táctico</h4>
-  <ul>
-   <li><a href="/tactico/inventario">Informe inventario</a></li>
-   <li><a href="/tactico/ordencompra">Informe Órdenes Compra</a></li>
-   <li><a href="/tactico/librosvendidos">Informe Libros vendidos</a></li>
-   <li><a href="/tactico/ventaseditorial">Informe Libros vendidos por Editorial</a></li>
-   <li><a href="/tactico/ventasmes">Informe Libros vendidos por Mes</a></li>
-   <li></li>
-  </ul>
+  <h3 class="text-center">Menú</h3>
+  <div ng-if="mn.isEstrategico() || mn.isAdmin()">
+    <h4>Estratégico</h4>
+    <ul>
+      <li>
+        <a href="/estrategico/proveedores">Informe proveedores</a>
+      </li>
+      <li>
+        <a href="/estrategico/ingresos">Informe ingresos</a>
+      </li>
+      <li>
+        <a href="/estrategico/compras">Informe compras</a>
+      </li>
+      <li>
+        <a href="/estrategico/topventas">Informe de ventas de libros</a>
+      </li>
+      <li>
+        <a href="/estrategico/ventacategoria">Informe de ventas por categoria</a>
+      </li>
+    </ul>
+  </div>
+  <div ng-if="mn.getCurrentUser().role === 'tactico' || mn.isAdmin()">
+    <h4>Táctico</h4>
+    <ul>
+      <li>
+        <a href="/tactico/inventario">Informe inventario</a>
+      </li>
+      <li>
+        <a href="/tactico/ordencompra">Informe Órdenes Compra</a>
+      </li>
+      <li>
+        <a href="/tactico/librosvendidos">Informe Libros vendidos</a>
+      </li>
+      <li>
+        <a href="/tactico/ventaseditorial">Informe Libros vendidos por Editorial</a>
+      </li>
+      <li>
+        <a href="/tactico/ventasmes">Informe Libros vendidos por Mes</a>
+      </li>
+      <li>
+        <a href="/tactico/ventasproveedor">Informe Libros vendidos por Proveedor</a>
+      </li>
+    </ul>
+  </div>
+
 </div>

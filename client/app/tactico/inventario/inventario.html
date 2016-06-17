@@ -33,12 +33,12 @@
           <td>{{$index + 1}}</td>
           <td>{{prov.titulo_libro}}</td>
           <td>{{prov.precio_venta | currency}}</td>
-          <td>{{prov.cantidad}}</td>
+          <td>{{prov.cantidad | number}}</td>
         </tr>
        </table>
 
        <div ng-show="pv.proveedores" class="text-center">
-        <label for="">Total</label> <b>{{pv.valor.total}}</b>
+        <label for="">Total</label> <b>{{pv.valor.total | number}}</b>
         <p class="text-danger">FIN DEL REPORTE</p> <br>
         <button class="btn">Exportar</button>
         <a class="btn btn-default" href="/">Volver al menu principal</a>
