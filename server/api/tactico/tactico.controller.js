@@ -103,22 +103,34 @@ export function ordenCompraRep(req, res){
 }
 
 export function librosVendidos(req, res){
- let limit = Number(req.body.limit);
- let inicial = new Date(req.body.fechaInicial);
- let final = new Date(req.body.fechaFinal);
- let fechaInicial = inicial.getFullYear() + '-' + (inicial.getMonth() + 1) + '-' + inicial.getDate();
- let fechaFinal = final.getFullYear() + '-' + (final.getMonth() + 1) + '-' + final.getDate();
+  let limit = Number(req.body.limit);
+  let inicial = new Date(req.body.fechaInicial);
+  let final = new Date(req.body.fechaFinal);
+  let fechaInicial = inicial.getFullYear() + '-' + (inicial.getMonth() + 1) + '-' + inicial.getDate();
+  let fechaFinal = final.getFullYear() + '-' + (final.getMonth() + 1) + '-' + final.getDate();
 
- sequelize.query('SELECT titulo_libro, SUM(cantidad_vendida) as cantidad from venta_libro_diaria as v, libro as l where v.id_libro = l.id_libro and fecha between ? and ?  GROUP BY v.id_libro ORDER BY cantidad DESC LIMIT ?', {
-   replacements: [fechaInicial, fechaFinal, limit],
-   type: sequelize.QueryTypes.SELECT
- }).then(function(sales) {
-   res.status(200).json(sales);
- });
+  sequelize.query('SELECT titulo_libro, SUM(cantidad_vendida) as cantidad from venta_libro_diaria as v, libro as l where v.id_libro = l.id_libro and fecha between ? and ?  GROUP BY v.id_libro ORDER BY cantidad DESC LIMIT ?', {
+    replacements: [fechaInicial, fechaFinal, limit],
+    type: sequelize.QueryTypes.SELECT
+  }).then(function(sales) {
+    res.status(200).json(sales);
+  });
 }
 
 export function librosVendidosRep(req, res){
+  let limit = Number(req.query.limit);
+  let inicial = new Date(req.query.fechaInicial);
+  let final = new Date(req.query.fechaFinal);
+  let fechaInicial = inicial.getFullYear() + '-' + (inicial.getMonth() + 1) + '-' + inicial.getDate();
+  let fechaFinal = final.getFullYear() + '-' + (final.getMonth() + 1) + '-' + final.getDate();
+  let user = req.query.user;
 
+  sequelize.query('SELECT titulo_libro, SUM(cantidad_vendida) as cantidad from venta_libro_diaria as v, libro as l where v.id_libro = l.id_libro and fecha between ? and ?  GROUP BY v.id_libro ORDER BY cantidad DESC LIMIT ?', {
+    replacements: [fechaInicial, fechaFinal, limit],
+    type: sequelize.QueryTypes.SELECT
+  }).then(function(data) {
+    res.render('librosvendidos', {user: user, data: data});
+  });
 }
 
 export function ventasEditoral(req, res){
