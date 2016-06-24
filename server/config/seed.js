@@ -51,20 +51,20 @@ User.sync()
       role: 'tactico',
       name: 'Usuario Tactico',
       email: 'tactico@mail.com',
-      password: 'tactico'
+      password: 'tactico123'
     }, {
       provider: 'local',
       role: 'estrategico',
       name: 'Usuario Estrategico',
       email: 'estrategico@mail.com',
-      password: 'estrategico'
+      password: 'estrategico123'
     },
     {
       provider: 'local',
       role: 'admin',
       name: 'Admin',
-      email: 'admin@example.com',
-      password: 'admin'
+      email: 'admin@mail.com',
+      password: 'admin123'
     }])
     .then(() => {
       console.log('finished populating users');

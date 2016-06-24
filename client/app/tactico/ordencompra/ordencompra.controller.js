@@ -1,10 +1,12 @@
 (function() {
   'use strict';
   class OrdenCompraController {
-    constructor($http) {
+    constructor($http, Auth, $window) {
       this.$http = $http;
       this.valor = {};
       this.hoy = new Date();
+      this.Auth = Auth;
+      this.$window = $window;
     }
     $onInit() {
       console.log('hola a todos');
@@ -38,6 +40,14 @@
 
       }
 
+    }
+
+    exportar(){
+      console.log('entra');
+      let url = '/api/tactico/ordencompra?opcion=' + this.opcion;
+      url += '&limit=' + this.limit;
+      url = url + '&user=' + this.Auth.getCurrentUser().name;
+      this.$window.open(url,'_blank');
     }
 
     getMonth(m) {

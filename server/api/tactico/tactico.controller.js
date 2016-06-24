@@ -69,7 +69,37 @@ export function ordenCompra(req, res){
 }
 
 export function ordenCompraRep(req, res){
+ let opcion = req.query.opcion;
+ let limit = Number(req.query.limit);
+ let user = req.query.user;
 
+ //per year
+ if(opcion === '1'){
+  sequelize.query('select SUM(cantidad_articulos) as cantidad , year(fecha) as anio from orden_compra  GROUP BY anio ORDER BY anio desc LIMIT ?', {
+    replacements: [limit],
+    type: sequelize.QueryTypes.SELECT
+  }).then(function(data) {
+    res.render('ordenescompra',{opcion: opcion, data: data, user: user});
+  });
+ }
+ //per quarter
+ if(opcion === '2'){
+  sequelize.query('select SUM(cantidad_articulos) as cantidad , year(fecha) as anio, QUARTER(fecha) as quarter from orden_compra  GROUP BY anio,quarter ORDER BY anio desc LIMIT ?', {
+    replacements: [limit],
+    type: sequelize.QueryTypes.SELECT
+  }).then(function(data) {
+     res.render('ordenescompra',{opcion: opcion, data: data, user: user});
+  });
+ }
+ //per month
+ if(opcion === '3'){
+  sequelize.query('select SUM(cantidad_articulos) as cantidad , year(fecha) as anio, MONTH(fecha) as mes from orden_compra  GROUP BY anio,mes ORDER BY anio desc LIMIT ?', {
+    replacements: [limit],
+    type: sequelize.QueryTypes.SELECT
+  }).then(function(data) {
+     res.render('ordenescompra',{opcion: opcion, data: data, user: user});
+  });
+ }
 }
 
 export function librosVendidos(req, res){

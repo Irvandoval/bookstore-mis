@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <link href="/bower_components/bootstrap/dist/css/bootstrap.css" rel="stylesheet"/>
+    <title>Reporte órdenes de compra</title>
+    <style type="text/css">
+      @media print {
+        @page {
+          size: letter portrait;
+         margin:2cm  auto;
+        }
+        body {
+         {font-family:arial, times, serif;}
+        }
+        table, td{
+         font-size: 7pt;
+        }
+      }
+      .left-label {
+        right: 0;
+      }
+      .right-label {
+        position: absolute;
+        right: 5px;
+      }
+      .info {
+       margin-left: 15px;
+       margin-bottom: 15px;
+       margin top: 10px;
+       margin-right: 15px;
+      }
+
+      #menu-list {
+        font-size: 15px;
+      }
+    </style>
+  </head>
+  <body>
+   <div class="info">
+
+
+     <span class="right-label">
+       <b>usuario:</b>
+       <%= user%>
+     </span>
+     <br>
+   <%
+     var periodo ='';
+     if(opcion == 1) periodo = 'anual';
+     if(opcion == 2) periodo = 'trimestral'
+     if(opcion == 3) periodo = 'mensual'
+    %>
+     <span>
+       <b>Periodo:</b>
+       <%= periodo%>
+     </span>
+
+     <br>
+   </div>
+
+    <table class="table table-bordered">
+     <tr>
+      <td>#</td>
+      <td>Periodo</td>
+      <td>Cantidad</td>
+     </tr>
+     <% var total = 0; for(var i = 0; i < data.length; i++) { %>
+      <tr>
+       <%
+        mes ='';
+       if(data[i].mes){
+             if(data[i].mes === 1)
+             mes = 'enero';
+             if(data[i].mes === 2)
+             mes = 'febrero';
+             if(data[i].mes === 3)
+             mes = 'marzo';
+             if(data[i].mes === 4)
+             mes = 'abril';
+             if(data[i].mes === 5)
+             mes = 'mayo';
+             if(data[i].mes === 6)
+             mes = 'junio';
+             if(data[i].mes === 7)
+             mes = 'julio';
+             if(data[i].mes === 8)
+             mes = 'agosto';
+             if(data[i].mes === 9)
+             mes = 'septiembre';
+             if(data[i].mes === 10)
+             mes = 'octubre';
+             if(data[i].mes === 11)
+             mes = 'noviembre';
+             if(data[i].mes === 12)
+             mes = 'diciembre';
+          }
+          trimestre = '';
+          if(data[i].quarter){
+           trimestre = data[i].quarter + 'º' + ' trimestre';
+          }
+
+
+       %>
+        <td><%= i %></td>
+        <td><%= data[i].anio  %> <%= mes %> <%= trimestre%></td>
+        <td><%= data[i].cantidad %></td>
+      </tr>
+      <% total+= data[i].cantidad } %>
+    </table>
+
+    <div ng-show="pv.data" class="text-center">
+     <label for="">Total de data</label> <b><%= total %></b>
+     <p class="text-danger">FIN DEL REPORTE</p> <br>
+    </div>
+
+   <script type="text/javascript">
+      window.print();
+   </script>
+  </body>
+</html>

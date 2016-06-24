@@ -4,6 +4,7 @@ angular.module('libreriaApp')
   .config(function($stateProvider) {
     $stateProvider.state('ventaseditorial', {
       url: '/tactico/ventaseditorial',
-      template: '<ventaseditorial></ventaseditorial>'
+      template: '<ventaseditorial></ventaseditorial>',
+      authenticate: 'tactico'
     });
   });
