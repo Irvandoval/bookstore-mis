@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <link href="/bower_components/bootstrap/dist/css/bootstrap.css" rel="stylesheet"/>
+    <title>Informe de ventas por proveedor</title>
+    <style type="text/css">
+      @media print {
+         @page{
+          size: letter portrait;
+          margin: 2cm auto;
+        }
+        body {}
+        table,
+        td {
+          font-size: 7pt;
+        }
+        #sides {
+          margin: 0;
+        }
+
+        .left-label {
+          right: 0;
+        }
+        .right-label {
+          position: absolute;
+          right: 5px;
+        }
+        .info {
+         margin-left: 15px;
+         margin-bottom: 15px;
+         margin top: 10px;
+         margin-right: 15px;
+        }
+
+        #menu-list {
+          font-size: 15px;
+        }
+      }
+      table {
+        page-break-inside: auto;
+      }
+      tr {
+        page-break-inside: avoid;
+        page-break-after: auto;
+      }
+
+    </style>
+  </head>
+  <body>
+    <div class="info">
+
+
+      <span class="right-label">
+        <b>usuario:</b>
+        <%= user%>
+      </span>
+      <br>
+
+      <span>
+        <b>fecha inicio:</b>
+        <%= inicial%>
+      </span>
+      <span class="right-label">
+        <b>fecha fin:</b>
+        <%= final%>
+      </span>
+      <br>
+    </div>
+    <table class="table table-bordered">
+      <tr>
+        <td>#</td>
+        <td>Libro</td>
+        <td>Ventas</td>
+      </tr>
+      <% var total = 0; for(var i = 0; i < proveedores.length; i++) { %>
+        <tr>
+          <td><%= i %></td>
+          <td><%= proveedores[i].titulo_libro %></td>
+          <td>$<%= proveedores[i].monto.toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, '$1,'); %></td>
+        </tr>
+        <% total+= proveedores[i].monto } %>
+      </table>
+
+      <div ng-show="pv.proveedores" class="text-center">
+        <label for="">Total del monto</label>
+        <b>$<%= total.toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, '$1,');%></b>
+        <p class="text-danger">FIN DEL REPORTE</p>
+        <br>
+      </div>
+
+      <script type="text/javascript">
+        window.print();
+      </script>
+    </body>
+  </html>

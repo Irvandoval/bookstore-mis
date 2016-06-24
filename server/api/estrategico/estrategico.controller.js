@@ -162,7 +162,7 @@ export function comprasRep(req, res){
     replacements: [Number(limit)],
     type: sequelize.QueryTypes.SELECT
   }).then(function(ingresos) {
-    
+
       res.render('compras', { ingresos: ingresos, user: user, opcion: req.query.opcion});
   });
  }
@@ -222,11 +222,25 @@ export function topLibros(req, res){
  let fechaInicial = inicial.getFullYear() + '-' + (inicial.getMonth() + 1) + '-' + inicial.getDate();
  let fechaFinal = final.getFullYear() + '-' + (final.getMonth() + 1) + '-' + final.getDate();
 
- sequelize.query('SELECT titulo_libro, sum(cantidad_vendida*precio_venta) as monto from venta_libro_diaria natural join libro where fecha between ? and ? group by titulo_libro  ORDER BY monto DESC LIMIT ?', {
+ sequelize.query('SELECT titulo_libro, sum(precio_venta) as monto from venta_libro_diaria natural join libro where fecha between ? and ? group by titulo_libro  ORDER BY monto DESC LIMIT ?', {
    replacements: [fechaInicial, fechaFinal, Number(req.body.limit)],
    type: sequelize.QueryTypes.SELECT
  }).then(function(projects) {
    //console.log(projects);
    res.status(200).json(projects);
  });
+}
+
+export function topLibrosRep(req, res){
+  let inicial = req.query.fechaInicial;
+  let final = req.query.fechaFinal;
+  let limit = Number(req.query.limit);
+  console.log(req.user);
+  sequelize.query('SELECT titulo_libro, sum(precio_venta) as monto from venta_libro_diaria natural join libro where fecha between ? and ? group by titulo_libro  ORDER BY monto DESC LIMIT ?', {
+    replacements: [inicial, final, limit],
+    type: sequelize.QueryTypes.SELECT
+  })
+  .then(function(projects) {
+      res.render('proveedores', { proveedores: projects, inicial:inicial, final: final, user: req.query.user});
+  });
 }

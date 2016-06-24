@@ -12,6 +12,7 @@ router.get('/ingresos', controller.ingresosRep);
 router.post('/compras', controller.compras);
 router.get('/compras', controller.comprasRep);
 router.post('/topventas', controller.topLibros);
+router.get('/topventas', controller.topLibrosRep);
 router.post('/ventascategoria', controller.categoriasCompra);
 
 
