@@ -1,13 +1,15 @@
 (function() {
   'use strict';
   class IngresosController {
-    constructor($http) {
+    constructor($http, $window, Auth) {
       this.$http = $http;
       this.valor = {};
       this.hoy = new Date();
+      this.Auth = Auth;
+      this.$window = $window;
     }
     $onInit() {
-      console.log('hola a todos');
+
     }
 
     procesar() {
@@ -38,6 +40,14 @@
 
       }
 
+    }
+
+    exportar(){
+     console.log('entra');
+      let url = '/api/estrategico/ingresos?opcion=' + this.opcion;
+      url += '&limit=' + this.limit;
+      url = url + '&user=' + this.Auth.getCurrentUser().name;
+      this.$window.open(url,'_blank');
     }
 
     getMonth(m) {

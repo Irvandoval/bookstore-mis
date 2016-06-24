@@ -23,11 +23,12 @@ export function proveedores(req, res) {
 export function proveedoresRep(req, res){
   let inicial = req.query.fechaInicial;
   let final = req.query.fechaFinal;
+  console.log(req.user);
   sequelize.query('select pv.nombre_proveedor, sum(total_orden) monto from  orden_compra as oc, proveedor as pv where oc.proveedor = pv.id_proveedor and oc.fecha BETWEEN ? and  ? GROUP BY pv.id_proveedor ORDER BY monto DESC', {
     replacements: [inicial, final],
     type: sequelize.QueryTypes.SELECT
   }).then(function(projects) {
-      res.render('proveedores', { proveedores: projects});
+      res.render('proveedores', { proveedores: projects, inicial:inicial, final: final, user: req.query.user});
   });
 }
 
@@ -36,7 +37,7 @@ export function ingresos(req,res){
  //per year
  console.log(req.body.opcion);
   if(req.body.opcion === '1'){
-   sequelize.query('select SUM(cantidad_vendida*(precio_venta - costo_venta)) as ingreso , year(fecha) as anio from venta_libro_diaria  GROUP BY anio ORDER BY anio desc LIMIT ?', {
+   sequelize.query('select SUM(precio_venta - costo_venta) as ingreso , year(fecha) as anio from venta_libro_diaria  GROUP BY anio ORDER BY anio desc LIMIT ?', {
      replacements: [Number(req.body.limit)],
      type: sequelize.QueryTypes.SELECT
    }).then(function(sales) {
@@ -46,7 +47,7 @@ export function ingresos(req,res){
   }
  //per quarter
  if(req.body.opcion === '2'){
-  sequelize.query('select SUM(cantidad_vendida*(precio_venta - costo_venta)) as ingreso , year(fecha) as anio, QUARTER(fecha) as quarter from venta_libro_diaria GROUP BY anio, quarter ORDER BY anio DESC LIMIT ?', {
+  sequelize.query('select SUM(precio_venta - costo_venta) as ingreso , year(fecha) as anio, QUARTER(fecha) as quarter from venta_libro_diaria GROUP BY anio, quarter ORDER BY anio DESC LIMIT ?', {
     replacements: [Number(req.body.limit)],
     type: sequelize.QueryTypes.SELECT
   }).then(function(sales) {
@@ -57,7 +58,7 @@ export function ingresos(req,res){
 
  //per month
  if(req.body.opcion === '3'){
-  sequelize.query('select SUM(cantidad_vendida*(precio_venta - costo_venta)) as ingreso , year(fecha) as anio, MONTH(fecha) as mes from venta_libro_diaria GROUP BY anio, mes ORDER BY anio DESC LIMIT ?', {
+  sequelize.query('select SUM(precio_venta - costo_venta) as ingreso , year(fecha) as anio, MONTH(fecha) as mes from venta_libro_diaria GROUP BY anio, mes ORDER BY anio DESC LIMIT ?', {
     replacements: [Number(req.body.limit)],
     type: sequelize.QueryTypes.SELECT
   }).then(function(sales) {
@@ -72,34 +73,35 @@ export function ingresos(req,res){
 export function ingresosRep(req, res){
  let opcion = req.query.opcion;
  let limit = req.query.limit;
+ let user = req.query.user;
  //per year
  console.log(req.body.opcion);
   if(opcion === '1'){
-   sequelize.query('select SUM(cantidad_vendida*(precio_venta - costo_venta)) as ingreso , year(fecha) as anio from venta_libro_diaria  GROUP BY anio ORDER BY anio desc LIMIT ?', {
+   sequelize.query('select SUM(precio_venta - costo_venta) as ingreso , year(fecha) as anio from venta_libro_diaria  GROUP BY anio ORDER BY anio desc LIMIT ?', {
      replacements: [Number(limit)],
      type: sequelize.QueryTypes.SELECT
    }).then(function(ingresos) {
-       res.render('ingresos', { ingresos: ingresos});
+        res.render('ingresos', { ingresos: ingresos, user: user, opcion: req.query.opcion});
    });
   }
  //per quarter
  if(opcion === '2'){
-  sequelize.query('select SUM(cantidad_vendida*(precio_venta - costo_venta)) as ingreso , year(fecha) as anio, QUARTER(fecha) as quarter from venta_libro_diaria GROUP BY anio, quarter ORDER BY anio DESC LIMIT ?', {
+  sequelize.query('select SUM(precio_venta - costo_venta) as ingreso , year(fecha) as anio, QUARTER(fecha) as quarter from venta_libro_diaria GROUP BY anio, quarter ORDER BY anio DESC LIMIT ?', {
     replacements: [Number(limit)],
     type: sequelize.QueryTypes.SELECT
   }).then(function(ingresos) {
     //console.log(projects);
-      res.render('ingresos', { ingresos: ingresos});
+      res.render('ingresos', { ingresos: ingresos, user: user, opcion: req.query.opcion});
   });
  }
 
  //per month
  if(opcion === '3'){
-  sequelize.query('select SUM(cantidad_vendida*(precio_venta - costo_venta)) as ingreso , year(fecha) as anio, MONTH(fecha) as mes from venta_libro_diaria GROUP BY anio, mes ORDER BY anio DESC LIMIT ?', {
+  sequelize.query('select SUM(precio_venta - costo_venta) as ingreso , year(fecha) as anio, MONTH(fecha) as mes from venta_libro_diaria GROUP BY anio, mes ORDER BY anio DESC LIMIT ?', {
     replacements: [Number(limit)],
     type: sequelize.QueryTypes.SELECT
   }).then(function(ingresos) {
-          res.render('ingresos', { ingresos: ingresos});
+    res.render('ingresos', { ingresos: ingresos, user: user, opcion: req.query.opcion});
   });
  }
 }
@@ -141,8 +143,39 @@ export function compras(req,res){
 
 }
 
-export function comprasRep(){
- 
+export function comprasRep(req, res){
+ let opcion = req.query.opcion;
+ let limit = req.query.limit;
+ let user = req.query.user;
+ //per year
+  if(opcion === '1'){
+   sequelize.query('select SUM(total_orden) as compras, year(fecha) as anio from orden_compra group by anio ORDER BY anio desc LIMIT ?', {
+     replacements: [Number(limit)],
+     type: sequelize.QueryTypes.SELECT
+   }).then(function(ingresos) {
+        res.render('compras', { ingresos: ingresos, user: user, opcion: req.query.opcion});
+   });
+  }
+ //per quarter
+ if(opcion === '2'){
+  sequelize.query('select SUM(total_orden) as compras, year(fecha) as anio, QUARTER(fecha) as quarter from orden_compra group by anio,quarter ORDER BY anio desc LIMIT ?', {
+    replacements: [Number(limit)],
+    type: sequelize.QueryTypes.SELECT
+  }).then(function(ingresos) {
+    
+      res.render('compras', { ingresos: ingresos, user: user, opcion: req.query.opcion});
+  });
+ }
+
+ //per month
+ if(opcion === '3'){
+  sequelize.query('select SUM(total_orden) as compras, year(fecha) as anio, month(fecha) as mes from orden_compra group by anio,mes ORDER BY anio desc LIMIT ?', {
+    replacements: [Number(limit)],
+    type: sequelize.QueryTypes.SELECT
+  }).then(function(ingresos) {
+    res.render('compras', { ingresos: ingresos, user: user, opcion: req.query.opcion});
+  });
+ }
 }
 
 //get a list of buys per categhory  and per year, month or quarter
@@ -161,7 +194,7 @@ export function categoriasCompra(req, res){
 
   //per quarter
    if(req.body.opcion === '2'){
-    sequelize.query('select nombre_categoria, SUM(cantidad_vendida * precio_venta) as venta ,YEAR(fecha) as anio, quarter(fecha) as quarter from  venta_libro_diaria NATURAL JOIN libro  natural join categoria  where YEAR(fecha) = ? AND QUARTER(fecha) = ? GROUP BY  nombre_categoria, anio, quarter  order by venta LIMIT ?', {
+    sequelize.query('select nombre_categoria, SUM(precio_venta) as venta ,YEAR(fecha) as anio, quarter(fecha) as quarter from  venta_libro_diaria NATURAL JOIN libro  natural join categoria  where YEAR(fecha) = ? AND QUARTER(fecha) = ? GROUP BY  nombre_categoria, anio, quarter  order by venta LIMIT ?', {
       replacements: [Number(req.body.anio), Number(req.body.trimestre), Number(req.body.limit)],
       type: sequelize.QueryTypes.SELECT
     }).then(function(sales) {

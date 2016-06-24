@@ -7,7 +7,7 @@
       this.hoy = new Date();
     }
     $onInit() {
-      console.log('hola a todos');
+      
     }
 
     procesar() {

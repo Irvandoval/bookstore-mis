@@ -1,13 +1,15 @@
 (function() {
   'use strict';
   class ProveedoresController {
-    constructor($http) {
+    constructor($http, $window, Auth) {
       this.$http = $http;
       this.valor = {};
       this.hoy = new Date();
+      this.$window = $window;
+      this.Auth = Auth;
     }
     $onInit() {
-      console.log('hola a todos');
+
     }
 
     procesar() {
@@ -37,6 +39,18 @@
 
       }
 
+    }
+
+    exportar(){
+       let url = '/api/estrategico/proveedores?fechaInicial='+ this.obtenerFecha(this.fecha.inicio);
+       url = url +'&fechaFinal=' + this.obtenerFecha(this.fecha.fin);
+       url = url + '&user=' + this.Auth.getCurrentUser().name;
+       this.$window.open(url,'_blank');
+    }
+    /* Return a string from a Date Object*/
+    obtenerFecha(fecha){
+      let mes = Number(fecha.getMonth()) + 1;
+      return fecha.getFullYear() + '-' + mes + '-' + fecha.getDate();
     }
 
   }

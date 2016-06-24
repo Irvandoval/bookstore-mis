@@ -30,8 +30,9 @@
        <div ng-show="pv.proveedores" class="text-center">
         <label for="">Total del monto</label> <b>{{pv.valor.total | currency}}</b>
         <p class="text-danger">FIN DEL REPORTE</p> <br>
-        <button class="btn">Exportar</button>
+        <button class="btn" ng-click="pv.exportar()">Exportar</button>
         <a class="btn btn-default" href="/">Volver al menu principal</a>
+        <br>
        </div>
       </div>
   </div>
