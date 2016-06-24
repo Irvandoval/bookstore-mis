@@ -183,7 +183,7 @@ export function categoriasCompra(req, res){
  console.log(req.body);
  //per year
   if(req.body.opcion === '1'){
-   sequelize.query('select nombre_categoria, SUM(cantidad_vendida * precio_venta) as venta ,YEAR(fecha) as anio from venta_libro_diaria NATURAL JOIN libro  natural join categoria GROUP BY  nombre_categoria, anio order by anio desc LIMIT ?', {
+   sequelize.query('select nombre_categoria, SUM(precio_venta) as venta ,YEAR(fecha) as anio from venta_libro_diaria NATURAL JOIN libro  natural join categoria GROUP BY  nombre_categoria, anio order by anio desc LIMIT ?', {
      replacements: [Number(req.body.limit)],
      type: sequelize.QueryTypes.SELECT
    }).then(function(sales) {
@@ -205,7 +205,7 @@ export function categoriasCompra(req, res){
 
    //per month
     if(req.body.opcion === '3'){
-     sequelize.query('select nombre_categoria, SUM(cantidad_vendida * precio_venta) as venta ,YEAR(fecha) as anio, month(fecha) as mes from  venta_libro_diaria NATURAL JOIN libro  natural join categoria  where YEAR(fecha) = ? AND month(fecha) = ? GROUP BY  nombre_categoria, anio, mes  order by venta DESC LIMIT ?', {
+     sequelize.query('select nombre_categoria, SUM(precio_venta) as venta ,YEAR(fecha) as anio, month(fecha) as mes from  venta_libro_diaria NATURAL JOIN libro  natural join categoria  where YEAR(fecha) = ? AND month(fecha) = ? GROUP BY  nombre_categoria, anio, mes  order by venta DESC LIMIT ?', {
        replacements: [Number(req.body.anio), Number(req.body.mes), Number(req.body.limit)],
        type: sequelize.QueryTypes.SELECT
      }).then(function(sales) {
@@ -213,6 +213,42 @@ export function categoriasCompra(req, res){
        res.status(200).json(sales);
      });
     }
+}
+
+export function categoriasCompraRep(req, res){
+ let opcion = req.query.opcion;
+ let limit = req.query.limit;
+ let user = req.query.user;
+ //per year
+ console.log(req.body.opcion);
+  if(opcion === '1'){
+   sequelize.query('select nombre_categoria, SUM(precio_venta) as venta ,YEAR(fecha) as anio from venta_libro_diaria NATURAL JOIN libro  natural join categoria GROUP BY  nombre_categoria, anio order by anio desc LIMIT ?', {
+     replacements: [Number(limit)],
+     type: sequelize.QueryTypes.SELECT
+   }).then(function(ingresos) {
+        res.render('comprascategoria', { ingresos: ingresos, user: user, opcion: req.query.opcion});
+   });
+  }
+ //per quarter
+ if(opcion === '2'){
+  sequelize.query('select nombre_categoria, SUM(precio_venta) as venta ,YEAR(fecha) as anio, quarter(fecha) as quarter from  venta_libro_diaria NATURAL JOIN libro  natural join categoria  where YEAR(fecha) = ? AND QUARTER(fecha) = ? GROUP BY  nombre_categoria, anio, quarter  order by venta LIMIT ?', {
+    replacements: [Number(req.query.anio), Number(req.query.trimestre), Number(req.query.limit)],
+    type: sequelize.QueryTypes.SELECT
+  }).then(function(ingresos) {
+    //console.log(projects);
+      res.render('comprascategoria', { ingresos: ingresos, user: user, opcion: req.query.opcion});
+  });
+ }
+
+ //per month
+ if(opcion === '3'){
+  sequelize.query('select nombre_categoria, SUM(precio_venta) as venta ,YEAR(fecha) as anio, month(fecha) as mes from  venta_libro_diaria NATURAL JOIN libro  natural join categoria  where YEAR(fecha) = ? AND month(fecha) = ? GROUP BY  nombre_categoria, anio, mes  order by venta DESC LIMIT ?', {
+        replacements: [Number(req.query.anio), Number(req.query.mes), Number(req.query.limit)],
+    type: sequelize.QueryTypes.SELECT
+  }).then(function(ingresos) {
+    res.render('comprascategoria', { ingresos: ingresos, user: user, opcion: req.query.opcion});
+  });
+ }
 }
 
 // get top sales BETWEEN dates
@@ -241,6 +277,6 @@ export function topLibrosRep(req, res){
     type: sequelize.QueryTypes.SELECT
   })
   .then(function(projects) {
-      res.render('proveedores', { proveedores: projects, inicial:inicial, final: final, user: req.query.user});
+      res.render('topventas', { proveedores: projects, inicial:inicial, final: final, user: req.query.user});
   });
 }

@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <link href="/bower_components/bootstrap/dist/css/bootstrap.css" rel="stylesheet"/>
-    <title>Reporte de ingresos</title>
+    <title>Reporte Venta de libros por categoría</title>
     <style type="text/css">
       @media print {
         @page {
@@ -63,7 +63,8 @@
      <tr>
       <td>#</td>
       <td>Periodo</td>
-      <td>Ingreso</td>
+      <td>Nombre de categoria</td>
+      <td>Compras</td>
      </tr>
      <% var total = 0; for(var i = 0; i < ingresos.length; i++) { %>
       <tr>
@@ -104,13 +105,14 @@
        %>
         <td><%= i %></td>
         <td><%= ingresos[i].anio  %> <%= mes %> <%= trimestre%></td>
-        <td>$<%= ingresos[i].ingreso.toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, '$1,'); %></td>
+        <td><%= ingresos[i].nombre_categoria %></td>
+        <td>$<%= ingresos[i].venta.toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, '$1,'); %></td>
       </tr>
-      <% total+= ingresos[i].ingreso } %>
+      <% total+= ingresos[i].venta } %>
     </table>
 
     <div ng-show="pv.ingresos" class="text-center">
-     <label for="">Total de ingresos</label> <b>$<%= total.toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, '$1,');%></b>
+     <label for="">Total de compras</label> <b>$<%= total.toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, '$1,');%></b>
      <p class="text-danger">FIN DEL REPORTE</p> <br>
     </div>
 
