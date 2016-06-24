@@ -23,13 +23,13 @@ export function inventario(req, res){
 export function inventarioRep(req, res){
   let fechaInicial = req.query.fecha;
   let limit = Number(req.query.limit);
-
+  let user = req.query.user;
   sequelize.query('SELECT titulo_libro, precio_venta, (cantidad_disponible - cantidad_vendida) as cantidad from libro as L , venta_libro_diaria as VLD where L.id_libro = VLD.id_libro and VLD.fecha <= ? GROUP BY L.id_libro LIMIT ?', {
     replacements: [fechaInicial, limit],
     type: sequelize.QueryTypes.SELECT
   }).then(function(data) {
    //console.log(projects);
-   res.status(200).json(data);
+    res.render('inventario', {inicial:  fechaInicial, user: user, data: data});
  });
 }
 

@@ -1,11 +1,13 @@
 (function() {
   'use strict';
   class InventarioController {
-    constructor($http) {
+    constructor($http, Auth, $window) {
       this.$http = $http;
       this.valor = {};
       this.hoy = new Date();
       this.fecha = {};
+      this.Auth = Auth;
+      this.$window = $window;
     }
     $onInit() {
       console.log('hola a todos');
@@ -40,6 +42,19 @@
       }
 
     }
+
+    exportar(){
+       let url = '/api/tactico/inventario?fecha='+ this.obtenerFecha(this.fecha.inicio);
+       url = url + '&user=' + this.Auth.getCurrentUser().name;
+       url += '&limit=' + this.limit;
+       this.$window.open(url,'_blank');
+    }
+    /* Return a string from a Date Object*/
+    obtenerFecha(fecha){
+      let mes = Number(fecha.getMonth()) + 1;
+      return fecha.getFullYear() + '-' + mes + '-' + fecha.getDate();
+    }
+
 
   }
   angular.module('libreriaApp')
