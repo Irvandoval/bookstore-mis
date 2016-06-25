@@ -205,5 +205,15 @@ export function ventasPorProveedor(req, res){
 }
 
 export function ventasPorProveedorRep(req, res){
+  let limit = Number(req.query.limit);
+  let inicial = req.query.fechaInicial;
+  let final = req.query.fechaFinal;
+  let user = req.query.user;
 
+  sequelize.query('SELECT nombre_proveedor, SUM(cantidad_articulos) as cantidad from orden_compra as oe, proveedor as p where oe.proveedor = p.id_proveedor and fecha BETWEEN ? AND ? GROUP BY nombre_proveedor ORDER BY cantidad DESC LIMIT ?', {
+    replacements: [inicial, final, limit],
+    type: sequelize.QueryTypes.SELECT
+  }).then(function(data) {
+    res.render('ventasproveedor', {data: data, user: user, inicial: inicial, final: final});
+  });
 }

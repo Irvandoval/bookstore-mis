@@ -1,10 +1,12 @@
 (function() {
   'use strict';
   class VentasProveedorController {
-    constructor($http) {
+    constructor($http, Auth, $window) {
       this.$http = $http;
       this.valor = {};
       this.hoy = new Date();
+      this.Auth = Auth;
+      this.$window = $window;
     }
     $onInit() {
       console.log('hola a todos');
@@ -37,6 +39,20 @@
 
       }
 
+    }
+
+    exportar(){
+     console.log('entra');
+       let url = '/api/tactico/ventasproveedor?fechaInicial='+ this.obtenerFecha(this.fecha.inicio);
+       url = url +'&fechaFinal=' + this.obtenerFecha(this.fecha.fin);
+       url = url + '&user=' + this.Auth.getCurrentUser().name;
+       url += '&limit=' + this.limit;
+       this.$window.open(url,'_blank');
+    }
+    /* Return a string from a Date Object*/
+    obtenerFecha(fecha){
+      let mes = Number(fecha.getMonth()) + 1;
+      return fecha.getFullYear() + '-' + mes + '-' + fecha.getDate();
     }
 
   }
