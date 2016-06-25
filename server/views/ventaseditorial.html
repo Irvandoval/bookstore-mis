@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <link href="/bower_components/bootstrap/dist/css/bootstrap.css" rel="stylesheet"/>
-    <title>Informe de libros vendidos</title>
+    <title>Informe de ventas por editorial</title>
     <style type="text/css">
       @media print {
          @page{
@@ -70,13 +70,13 @@
     <table class="table table-bordered">
       <tr>
         <td>#</td>
-        <td>Libro</td>
-        <td>Monto gastado</td>
+        <td>Editorial</td>
+        <td>Cantidad</td>
       </tr>
       <% var total = 0; for(var i = 0; i < data.length; i++) { %>
         <tr>
           <td><%= i %></td>
-          <td><%= data[i].titulo_libro %></td>
+          <td><%= data[i].nombre_editorial %></td>
           <td><%= data[i].cantidad %></td>
         </tr>
         <% total+= data[i].cantidad } %>
