@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <link href="/bower_components/bootstrap/dist/css/bootstrap.css" rel="stylesheet"/>
+    <title>Reporte de ventas por mes</title>
+    <style type="text/css">
+      @media print {
+        @page {
+          size: letter portrait;
+         margin:2cm  auto;
+        }
+        body {
+         {font-family:arial, times, serif;}
+        }
+        table, td{
+         font-size: 7pt;
+        }
+      }
+      .left-label {
+        right: 0;
+      }
+      .right-label {
+        position: absolute;
+        right: 5px;
+      }
+      .info {
+       margin-left: 15px;
+       margin-bottom: 15px;
+       margin top: 10px;
+       margin-right: 15px;
+      }
+
+      #menu-list {
+        font-size: 15px;
+      }
+    </style>
+  </head>
+  <body>
+   <div class="info">
+
+    <%
+
+          if(mes == 1)
+           mesx = 'enero';
+          if(mes == 2)
+           mes = 'febrero';
+          if(mes == 3)
+           mesx = 'marzo';
+          if(mes == 4)
+           mesx = 'abril';
+          if(mes == 5)
+           mesx = 'mayo';
+          if(mes == 6)
+           mesx = 'junio';
+          if(mes == 7)
+           mesx = 'julio';
+          if(mes == 8)
+           mesx = 'agosto';
+          if(mes == 9)
+           mesx = 'septiembre';
+          if(mes == 10)
+           mesx = 'octubre';
+          if(mes == 11)
+           mesx = 'noviembre';
+          if(mes == 12)
+           mesx = 'diciembre';
+
+    %>
+     <span class="right-label">
+       <b>usuario:</b>
+       <%= user%>
+     </span>
+     <br>
+
+     <span>
+       <b>Periodo:</b>
+      <%= anio %> <%= mesx%>
+     </span>
+
+     <br>
+   </div>
+
+    <table class="table table-bordered">
+     <tr>
+      <td>#</td>
+      <td>Periodo</td>
+      <td>Ingreso</td>
+     </tr>
+
+     <% var total = 0; for(var i = 0; i < data.length; i++) { %>
+      <tr>
+
+        <td><%= i %></td>
+        <td><%= anio  %> <%= mesx %></td>
+        <td>$<%= data[i].cantidad %></td>
+      </tr>
+      <% total+= data[i].cantidad } %>
+    </table>
+
+    <div ng-show="pv.data" class="text-center">
+     <label for="">Total de ventas</label> <b><%= total%></b>
+     <p class="text-danger">FIN DEL REPORTE</p> <br>
+    </div>
+
+   <script type="text/javascript">
+      window.print();
+   </script>
+  </body>
+</html>

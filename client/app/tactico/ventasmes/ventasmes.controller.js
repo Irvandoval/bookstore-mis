@@ -1,11 +1,14 @@
 (function() {
   'use strict';
   class VentasMesController {
-    constructor($http) {
+    constructor($http, Auth, $window) {
       this.$http = $http;
       this.valor = {};
       this.hoy = new Date();
+      this.Auth = Auth;
+      this.$window = $window;
     }
+
     $onInit() {
      this.$http({
          url: '/api/compartido/aniosventas',
@@ -88,6 +91,14 @@
             this.valor.total = total;
           });
       }
+    }
+
+    export() {
+      let url = '/api/tactico/ventaspormes?mes='+ this.mes;
+      url = url +'&anio=' + this.anio;
+      url = url + '&user=' + this.Auth.getCurrentUser().name;
+      url += '&limit=' + this.limit;
+      this.$window.open(url,'_blank');
     }
 
   }

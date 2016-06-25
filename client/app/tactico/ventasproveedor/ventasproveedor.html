@@ -31,13 +31,13 @@
         </tr>
         <tr ng-repeat="prov in pv.proveedores">
           <td>{{$index + 1}}</td>
-          <td>xxxx</td>
-          <td>{{9999 | number}}</td>
+          <td>{{prov.nombre_proveedor}}</td>
+          <td>{{prov.cantidad | number}}</td>
         </tr>
        </table>
 
        <div ng-show="pv.proveedores" class="text-center">
-        <label for="">Total de libros vendidos</label> <b>{{9999 | number}}</b>
+        <label for="">Total de libros vendidos</label> <b>{{pv.valor.total | number}}</b>
         <p class="text-danger">FIN DEL REPORTE</p> <br>
         <button class="btn">Exportar</button>
         <a class="btn btn-default" href="/">Volver al menu principal</a>

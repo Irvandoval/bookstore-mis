@@ -175,7 +175,17 @@ export function ventasPorMes(req, res){
 }
 
 export function ventasPorMesRep(req, res){
+  let mes = Number(req.query.mes);
+  let anio = Number(req.query.anio);
+  let user = req.query.user;
 
+ sequelize.query('SELECT titulo_libro, SUM(cantidad_vendida) as cantidad, MONTH(fecha) as mes, YEAR(fecha) as anio from libro, venta_libro_diaria WHERE libro.id_libro = venta_libro_diaria.id_libro and MONTH(fecha) = ? and YEAR(fecha) = ? GROUP BY libro.id_libro ORDER BY cantidad LIMIT 25', {
+   replacements: [mes, anio],
+   type: sequelize.QueryTypes.SELECT
+  })
+  .then(function(data) {
+    res.render('ventaspormes', {user: user, data: data, anio: anio, mes: mes});
+  });
 }
 
 export function ventasPorProveedor(req, res){
