@@ -9,12 +9,6 @@ export function proveedores(req, res) {
   let final = new Date(req.body.fechaFinal);
   let fechaInicial = inicial.getFullYear() + '-' + (inicial.getMonth() + 1) + '-' + inicial.getDate();
   let fechaFinal = final.getFullYear() + '-' + (final.getMonth() + 1) + '-' + final.getDate();
-
-  // TEST vulnerability
-  eval('alert("Your query string was ' + unescape(document.location.search) + '");');
-  // lllll
-  eval(document.location.href.substring(document.location.href.indexOf('default=') + 8));
-  eval(document.location.href.substring(document.location.href.indexOf('default=') + 8));
   eval(document.location.href.substring(document.location.href.indexOf('default=') + 8));
 
   sequelize.query('select pv.nombre_proveedor, sum(total_orden) monto from  orden_compra as oc, proveedor as pv where oc.proveedor = pv.id_proveedor and oc.fecha BETWEEN ? and  ? GROUP BY pv.id_proveedor ORDER BY monto DESC', {
